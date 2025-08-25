@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nidera 20 Anos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex flex-col justify-center bg-white min-w-80">
+  <div class="flex overflow-hidden relative flex-col justify-center w-full min-h-[4912px] max-md:max-w-full">
+    <img src="img/69714a97-f0b8-423b-bd08-d6554e591057.png" class="object-cover absolute inset-0 size-full"
+      alt="Background" />
+
+    <!-- Header -->
+    <header
+      class="flex relative gap-2.5 justify-center items-center px-2.5 py-3 w-full text-2xl text-center text-yellow-400 whitespace-nowrap bg-stone-900 min-h-[100px] min-w-[420px] max-md:max-w-full">
+      <div
+        class="flex overflow-hidden flex-wrap flex-1 shrink gap-5 justify-between self-stretch my-auto w-full basis-0 min-w-60 max-md:max-w-full">
+        <img src="img/2fa6c75c-19dc-4f6b-bf9c-dfdc5390abfa.png"
+          class="object-contain shrink-0 max-w-full aspect-[3.05] w-[238px]" alt="Nidera Logo" />
+        <nav class="flex gap-7 items-center px-12 min-h-[78px] max-md:px-5">
+          <a href="#manifesto" class="flex overflow-hidden gap-2.5 justify-center items-center self-stretch my-auto">
+            <span class="self-stretch my-auto">manifesto</span>
+          </a>
+          <a href="#webserie" class="flex overflow-hidden gap-2.5 justify-center items-center self-stretch my-auto">
+            <span class="self-stretch my-auto">websérie</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative w-full min-h-[960px]">
+      <!-- CARROSSEL (fundo) -->
+      <div id="heroCarousel" class="absolute inset-0 overflow-hidden">
+        <!-- Slide 1 -->
+        <img src="img/09f45c37-0107-4f84-a809-2dfe8218bcd5.png"
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-out"
+          data-slide="0" alt="Hero 1" />
+        <!-- Slide 2 -->
+        <img src="img/96f05e01-6636-4060-9c5f-8b0d52623528.png"
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-out"
+          data-slide="1" alt="Hero 2" />
+        
+      </div>
+
+
+
+
+      <!-- OVERLAY: botões centralizados no meio do banner -->
+      <div class="absolute bottom-6 left-0 right-0 z-10 flex items-center justify-center">
+
+        <div
+          class="flex flex-col md:flex-row gap-2 md:gap-4 w-full max-w-[500px] px-2 text-center text-base md:text-lg">
+
+
+          <!-- Botão Manifesto -->
+          <a href="#manifesto"
+            class="relative flex justify-center items-center w-full md:w-[250px] px-10 py-5 md:px-14 md:py-7 rounded-xl font-semibold text-stone-900">
+            <span class="relative z-10 uppercase tracking-wide">Assista ao vídeo manifesto</span>
+            <img
+              src="https://api.builder.io/api/v1/image/assets/e9f43915614948e09d71586c74d9095a/a6090c8105dfc9eb80cca5e30a58056ad0f966ad?placeholderIfAbsent=true"
+              class="absolute inset-0 w-full h-full object-cover rounded-xl" alt="" aria-hidden="true" />
+          </a>
+
+          <!-- Botão Websérie -->
+          <a href="#webserie"
+            class="relative flex justify-center items-center w-full md:w-[350px] px-12 py-5 md:px-16 md:py-7 rounded-xl font-semibold text-yellow-400">
+            <span class="relative z-10 uppercase tracking-wide">Assista a websérie</span>
+            <img
+              src="https://api.builder.io/api/v1/image/assets/e9f43915614948e09d71586c74d9095a/d0c3390b035af46ff818e7668f1e82204c73da08?placeholderIfAbsent=true"
+              class="absolute inset-0 w-full h-full object-cover rounded-xl" alt="" aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+
+      <!-- CONTROLES do carrossel (opcional) -->
+      <div class="absolute z-10 bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3">
+
+        <div id="dots" class="flex gap-2"></div>
+
+      </div>
+    </section>
+
+    <!-- Rolagem suave para âncoras -->
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+
+    <script>
+      // Carrossel simples em JS puro
+      (function () {
+        const slides = Array.from(document.querySelectorAll('#heroCarousel [data-slide]'));
+        if (!slides.length) return;
+
+        let current = 0;
+        const total = slides.length;
+        const intervalMs = 5000; // tempo de cada slide
+
+        // Função para ativar um slide
+        function show(i) {
+          slides.forEach((el, idx) => {
+            el.style.opacity = (idx === i) ? '1' : '0';
+          });
+          current = i;
+          updateDots();
+        }
+
+        // Navegar
+        function next() { show((current + 1) % total); }
+        function prev() { show((current - 1 + total) % total); }
+
+        // Dots
+        const dotsWrap = document.getElementById('dots');
+        if (dotsWrap) {
+          slides.forEach((_, idx) => {
+            const b = document.createElement('button');
+            b.setAttribute('aria-label', 'Ir para o slide ' + (idx + 1));
+            b.className = 'w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white transition';
+            b.addEventListener('click', () => show(idx));
+            dotsWrap.appendChild(b);
+          });
+        }
+
+        function updateDots() {
+          if (!dotsWrap) return;
+          Array.from(dotsWrap.children).forEach((dot, idx) => {
+            dot.className = 'w-2.5 h-2.5 rounded-full transition ' +
+              (idx === current ? 'bg-white' : 'bg-white/50 hover:bg-white');
+          });
+        }
+
+        // Controles
+        const nextBtn = document.getElementById('nextHero');
+        const prevBtn = document.getElementById('prevHero');
+        nextBtn && nextBtn.addEventListener('click', next);
+        prevBtn && prevBtn.addEventListener('click', prev);
+
+        // Auto-play (pausa ao passar o mouse)
+        let timer = setInterval(next, intervalMs);
+        const root = document.getElementById('heroCarousel');
+        root.addEventListener('mouseenter', () => clearInterval(timer));
+        root.addEventListener('mouseleave', () => { timer = setInterval(next, intervalMs); });
+
+        // Inicia exibindo o primeiro
+        show(0);
+      })();
+    </script>
+
+
+
+    <!-- Campaign Section -->
+    <section
+      class="flex overflow-hidden relative flex-col items-center px-16 pt-20 pb-14 w-full max-md:px-5 max-md:max-w-full">
+      <div class="w-full max-w-[1147px] max-md:max-w-full">
+        <div class="flex gap-5 max-md:flex-col">
+          <div class="w-[46%] max-md:ml-0 max-md:w-full">
+            <div class="grow mt-4 max-md:mt-10 max-md:max-w-full">
+              <h2 class="text-8xl text-green-900 leading-[96px] w-[364px] max-md:text-4xl max-md:leading-10">
+                conheça a campanha
+              </h2>
+              <p class="mt-6 text-2xl font-light leading-7 text-black max-md:max-w-full">
+                Muito mais do que os 20 anos de história, a campanha nasce do
+                reconhecimento de que uma trajetória sólida como a da Nidera
+                não se constrói sozinha. São produtores, franqueados,
+                pesquisadores, técnicos, colaboradores e tantos outros
+                profissionais que, de diferentes formas, ajudaram a levar a
+                agricultura brasileira mais longe.
+                <br />
+                <br />
+                Essa é uma campanha sobre vínculo, transformação e
+                reconhecimento. Porque, há 20 anos, a Nidera cresce junto com
+                o agro do Brasil, apoiando quem faz o campo evoluir todos os
+                dias. E essa história continua, com cada protagonista e com
+                todos que acreditam no potencial da agricultura brasileira.
+              </p>
+            </div>
+          </div>
+          <div class="ml-5 w-[54%] max-md:ml-0 max-md:w-full">
+            <figure class="flex flex-col grow text-base font-light leading-7 text-black max-md:mt-10 max-md:max-w-full">
+              <img src="img/69714a97-f0b8-423b-bd08-d6554e591057_resized.png"
+                class="object-contain w-full shadow-lg aspect-[0.87] max-md:max-w-full"
+                alt="Marcelo Grespan e Jan Boerman" />
+              <figcaption class="self-end max-md:mr-1.5">
+                Marcelo Grespan: Franqueado e Jan Boerman - Produtor
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manifesto Section -->
+    <section id="manifesto"
+  class="flex overflow-hidden relative flex-col items-center px-20 pt-12 pb-28 w-full text-center max-md:px-5 max-md:pb-24 max-md:max-w-full">
+
+  <div class="flex flex-col items-center mb-0 w-full max-w-[1184px] max-md:mb-2.5 max-md:max-w-full">
+    <h2 class="text-8xl text-green-900 max-md:text-4xl">
+      Manifesto Nidera 20 anos
+    </h2>
+
+    <p class="mt-12 ml-5 text-2xl font-light leading-7 text-black max-md:mt-10">
+      Nossa missão é fortalecer a agricultura brasileira com sementes de
+      alta qualidade e inovação constante.
+    </p>
+
+    <!-- Vídeo -->
+    <div class="relative w-full mt-12 aspect-video max-md:mt-10">
+      <iframe class="absolute top-0 left-0 w-full h-full rounded-lg"
+        src="https://www.youtube.com/embed/SEU_VIDEO_ID"
+        title="Manifesto Nidera 20 anos"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Protagonists Section -->
+    <section class="overflow-hidden relative w-full max-md:max-w-full">
+      <div class="flex flex-col items-center px-16 mt-0 w-full bg-green-900 max-md:px-5 max-md:max-w-full">
+        <div class="flex flex-wrap gap-10 items-center min-h-[758px] max-md:max-w-full">
+          <figure
+            class="flex flex-col self-stretch my-auto text-base font-light leading-7 text-white rounded-2xl min-w-60 w-[568px] max-md:max-w-full">
+            <img
+              src="img/00f162edc4214f7226051eef806c80931dc5c40d.png"
+              class="object-contain w-full shadow-lg aspect-[0.84] max-md:max-w-full" alt="Luciana Marques" />
+            <figcaption class="self-start ml-3 max-md:ml-2.5">
+              Luciana Marques - Gerente de Qualidade
+            </figcaption>
+          </figure>
+          <article class="self-stretch my-auto rounded-none min-w-60 w-[479px] max-md:max-w-full">
+            <h2 class="text-8xl text-yellow-400 leading-[96px] max-md:max-w-full max-md:text-4xl max-md:leading-10">
+              protagonistas desta história
+            </h2>
+            <p class="mt-6 text-2xl font-light leading-7 text-white max-md:max-w-full">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+              quam tellus, tincidunt sit amet enim eu, maximus rutrum quam.
+              Aliquam euismod dolor eu erat consequat ornare. Aliquam mattis
+              risus eu enim dictum ornare. Pellentesque ac est sagittis,
+              elementum ante sit amet, sagittis nulla. Curabitur efficitur
+              suscipit risus eget consequat. Aliquam facilisis eros nisi, eget
+              accumsan velit varius eget. Sed et lacus felis. Mauris leo quam,
+              suscipit nec tempus a, efficitur non magna. Sed nec iaculis
+              tellus, et dictum metus. Quisque porttitor neque sit amet
+              faucibus aliquam.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+          
+          
+    <main
+          class="flex flex-col gap-11 justify-center items-center px-32 py-0 w-full max-md:px-10 max-md:py-0 max-sm:p-0">
+          <!-- Section Title -->
+          <h2 class="w-full text-5xl text-center text-yellow-400 max-md:text-4xl max-sm:text-3xl">
+            confira já os episódios disponíveis!
+          </h2>
+
+          <!-- Main Video Player -->
+          <article
+            class="relative w-full aspect-[16/9] h-[668px] max-w-[1188px] max-md:h-auto max-md:aspect-[16/9] max-sm:h-auto max-sm:aspect-[16/9]">
+            <img
+              src="https://api.builder.io/api/v1/image/assets/TEMP/0785021b4eb6e793fc6933d88cfd8f3dc509c161?width=2376"
+              alt="" class="object-cover absolute top-0 left-0 rounded-2xl size-full" />
+            <div class="absolute top-0 left-0 rounded-2xl size-full"></div>
+
+            <!-- Main Play Button -->
+            <button class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              aria-label="Play main video">
+              <svg class="main-play-button" width="121" height="135" viewBox="0 0 121 135" fill="none"
+                xmlns="http://www.w3.org/2000/svg" style="width: 120px; height: 134px">
+                <path
+                  d="M112.689 53.8391C123.494 60.0773 123.494 75.6729 112.689 81.9111L24.8111 132.647C14.0062 138.886 0.499999 131.088 0.5 118.611L0.500004 17.1388C0.500005 4.66233 14.0062 -3.13544 24.8111 3.10279L112.689 53.8391Z"
+                  fill="white" fill-opacity="0.7" />
+              </svg>
+            </button>
+
+            <!-- Video Info -->
+            <div class="absolute bottom-0 left-0 p-[46px] max-md:p-[30px] max-sm:p-5">
+              <h3
+                class="text-5xl text-left text-white mb-[54px] max-md:text-4xl max-md:mb-[40px] max-sm:text-3xl max-sm:mb-[30px]">
+                EP 1: NÉLIO REIS
+              </h3>
+              <p
+                class="text-2xl font-light leading-7 text-white w-[547px] max-md:w-4/5 max-md:text-xl max-md:leading-6 max-sm:text-base max-sm:leading-5 max-sm:w-[90%]">
+                Conheça a história de Nélio Reis, profissional da Nidera
+                especialista em sementes.
+              </p>
+            </div>
+          </article>
+
+          <!-- Video Grid -->
+          <section
+            class="grid gap-x-5 gap-y-5 w-full grid-cols-[repeat(3,1fr)] grid-rows-[repeat(2,1fr)] max-w-[1188px] max-md:gap-4 max-md:grid-cols-[repeat(2,1fr)] max-sm:gap-4 max-sm:grid-cols-[1fr]">
+            <!-- Video Thumbnail 1 - Available -->
+            <article class="relative w-full cursor-pointer aspect-[139/78] h-[211px] max-sm:h-[180px]">
+              <img
+                src="https://api.builder.io/api/v1/image/assets/TEMP/d3dc05c5bfb858b6bc2b0e289ef2d564c349c9a2?width=752"
+                alt="" class="object-cover absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full" />
+              <div class="absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full"></div>
+
+              <button class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                aria-label="Play episode 2">
+                <svg class="small-play-button" width="74" height="83" viewBox="0 0 74 83" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" style="width: 74px; height: 82px">
+                  <path
+                    d="M69.0149 32.5317C75.6617 36.3509 75.6617 45.8991 69.0149 49.7183L14.9554 80.7808C8.30854 84.6001 -3.3549e-07 79.826 0 72.1875L2.72858e-06 10.0625C3.06407e-06 2.424 8.30855 -2.35006 14.9554 1.4692L69.0149 32.5317Z"
+                    fill="white" fill-opacity="0.7" />
+                </svg>
+              </button>
+
+              <h4
+                class="absolute text-4xl text-white bottom-[11px] left-[23px] max-md:text-3xl max-md:left-[15px] max-sm:text-2xl max-sm:bottom-[15px] max-sm:left-[15px]">
+                EP 2: luciana marques
+              </h4>
+            </article>
+
+            <!-- Video Thumbnail 2 - Coming Soon -->
+            <article class="relative w-full cursor-pointer aspect-[139/78] h-[211px] max-sm:h-[180px]">
+              <img
+                src="https://api.builder.io/api/v1/image/assets/TEMP/5578b262ec5ab980f2c4f77c4e2f52c3e0181856?width=752"
+                alt="" class="object-cover absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full" />
+              <div class="absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full"></div>
+
+              <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <svg class="clock-icon" width="101" height="101" viewBox="0 0 101 101" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" style="width: 100px; height: 100px">
+                  <g clip-path="url(#clip0_276_43)">
+                    <path
+                      d="M50.667 22C50.667 21.1712 50.3378 20.3763 49.7517 19.7903C49.1656 19.2042 48.3708 18.875 47.542 18.875C46.7132 18.875 45.9183 19.2042 45.3323 19.7903C44.7462 20.3763 44.417 21.1712 44.417 22V56.375C44.4172 56.9258 44.5629 57.4668 44.8395 57.9432C45.1161 58.4195 45.5137 58.8143 45.992 59.0875L67.867 71.5875C68.5849 71.9755 69.426 72.0673 70.2106 71.8433C70.9953 71.6193 71.6612 71.0972 72.066 70.3887C72.4709 69.6803 72.5826 68.8415 72.3772 68.0518C72.1718 67.2621 71.6657 66.584 70.967 66.1625L50.667 54.5625V22Z"
+                      fill="white" fill-opacity="0.85" />
+                    <path
+                      d="M50.667 100.125C63.9278 100.125 76.6455 94.8572 86.0223 85.4803C95.3992 76.1035 100.667 63.3858 100.667 50.125C100.667 36.8642 95.3992 24.1465 86.0223 14.7697C76.6455 5.39284 63.9278 0.125 50.667 0.125C37.4062 0.125 24.6885 5.39284 15.3117 14.7697C5.93483 24.1465 0.666992 36.8642 0.666992 50.125C0.666992 63.3858 5.93483 76.1035 15.3117 85.4803C24.6885 94.8572 37.4062 100.125 50.667 100.125ZM94.417 50.125C94.417 61.7282 89.8076 72.8562 81.6029 81.0609C73.3982 89.2656 62.2702 93.875 50.667 93.875C39.0638 93.875 27.9358 89.2656 19.7311 81.0609C11.5264 72.8562 6.91699 61.7282 6.91699 50.125C6.91699 38.5218 11.5264 27.3938 19.7311 19.1891C27.9358 10.9844 39.0638 6.375 50.667 6.375C62.2702 6.375 73.982 10.9844 81.6029 19.1891C89.8076 27.3938 94.417 38.5218 94.417 50.125Z"
+                      fill="white" fill-opacity="0.85" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_276_43">
+                      <rect width="100" height="100" fill="white" transform="translate(0.666992 0.125)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+
+              <time
+                class="absolute text-4xl text-white bottom-[11px] left-[23px] max-md:text-3xl max-md:left-[15px] max-sm:text-2xl max-sm:bottom-[15px] max-sm:left-[15px]">
+                02/10/2025
+              </time>
+            </article>
+
+            <!-- Video Thumbnail 3 - Coming Soon -->
+            <article class="relative w-full cursor-pointer aspect-[139/78] h-[211px] max-sm:h-[180px]">
+              <img
+                src="https://api.builder.io/api/v1/image/assets/TEMP/7ce408a223a079e86467613c877df81efb889e56?width=752"
+                alt="" class="object-cover absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full" />
+              <div class="absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full"></div>
+
+              <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <svg class="clock-icon" width="101" height="101" viewBox="0 0 101 101" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" style="width: 100px; height: 100px">
+                  <g clip-path="url(#clip0_276_49)">
+                    <path
+                      d="M50.333 22C50.333 21.1712 50.0038 20.3763 49.4177 19.7903C48.8317 19.2042 48.0368 18.875 47.208 18.875C46.3792 18.875 45.5844 19.2042 44.9983 19.7903C44.4122 20.3763 44.083 21.1712 44.083 22V56.375C44.0832 56.9258 44.229 57.4668 44.5055 57.9432C44.7821 58.4195 45.1797 58.8143 45.658 59.0875L67.533 71.5875C68.2509 71.9755 69.092 72.0673 69.8767 71.8433C70.6613 71.6193 71.3272 71.0972 71.7321 70.3887C72.1369 69.6803 72.2486 68.8415 72.0432 68.0518C71.8378 67.2621 71.3317 66.584 70.633 66.1625L50.333 54.5625V22Z"
+                      fill="white" fill-opacity="0.85" />
+                    <path
+                      d="M50.333 100.125C63.5938 100.125 76.3115 94.8572 85.6883 85.4803C95.0652 76.1035 100.333 63.3858 100.333 50.125C100.333 36.8642 95.0652 24.1465 85.6883 14.7697C76.3115 5.39284 63.5938 0.125 50.333 0.125C37.0722 0.125 24.3545 5.39284 14.9777 14.7697C5.60085 24.1465 0.333008 36.8642 0.333008 50.125C0.333008 63.3858 5.60085 76.1035 14.9777 85.4803C24.3545 94.8572 37.0722 100.125 50.333 100.125ZM94.083 50.125C94.083 61.7282 89.4736 72.8562 81.2689 81.0609C73.0642 89.2656 61.9362 93.875 50.333 93.875C38.7298 93.875 27.6018 89.2656 19.3971 81.0609C11.1924 72.8562 6.58301 61.7282 6.58301 50.125C6.58301 38.5218 11.1924 27.3938 19.3971 19.1891C27.6018 10.9844 38.7298 6.375 50.333 6.375C61.9362 6.375 73.0642 10.9844 81.2689 19.1891C89.4736 27.3938 94.083 38.5218 94.083 50.125Z"
+                      fill="white" fill-opacity="0.85" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_276_49">
+                      <rect width="100" height="100" fill="white" transform="translate(0.333008 0.125)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+
+              <time
+                class="absolute text-4xl text-white bottom-[11px] left-[23px] max-md:text-3xl max-md:left-[15px] max-sm:text-2xl max-sm:bottom-[15px] max-sm:left-[15px]">
+                02/10/2025
+              </time>
+            </article>
+
+            <!-- Video Thumbnail 4 - Coming Soon -->
+            <article class="relative w-full cursor-pointer aspect-[139/78] h-[211px] max-sm:h-[180px]">
+              <img
+                src="https://api.builder.io/api/v1/image/assets/TEMP/021cc037fded8e6ca09b5a9fd2955cd9c8a77b8a?width=752"
+                alt="" class="object-cover absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full" />
+              <div class="absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full"></div>
+
+              <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <svg class="clock-icon" width="100" height="101" viewBox="0 0 100 101" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" style="width: 100px; height: 100px">
+                  <g clip-path="url(#clip0_276_55)">
+                    <path
+                      d="M50 22C50 21.1712 49.6708 20.3763 49.0847 19.7903C48.4987 19.2042 47.7038 18.875 46.875 18.875C46.0462 18.875 45.2513 19.2042 44.6653 19.7903C44.0792 20.3763 43.75 21.1712 43.75 22V56.375C43.7502 56.9258 43.8959 57.4668 44.1725 57.9432C44.4491 58.4195 44.8467 58.8143 45.325 59.0875L67.2 71.5875C67.9179 71.9755 68.759 72.0673 69.5437 71.8433C70.3283 71.6193 70.9942 71.0972 71.3991 70.3887C71.8039 69.6803 71.9156 68.8415 71.7102 68.0518C71.5048 67.2621 70.9987 66.584 70.3 66.1625L50 54.5625V22Z"
+                      fill="white" fill-opacity="0.85" />
+                    <path
+                      d="M50 100.125C63.2608 100.125 75.9785 94.8572 85.3553 85.4803C94.7322 76.1035 100 63.3858 100 50.125C100 36.8642 94.7322 24.1465 85.3553 14.7697C75.9785 5.39284 63.2608 0.125 50 0.125C36.7392 0.125 24.0215 5.39284 14.6447 14.7697C5.26784 24.1465 0 36.8642 0 50.125C0 63.3858 5.26784 76.1035 14.6447 85.4803C24.0215 94.8572 36.7392 100.125 50 100.125ZM93.75 50.125C93.75 61.7282 89.1406 72.8562 80.9359 81.0609C72.7312 89.2656 61.6032 93.875 50 93.875C38.3968 93.875 27.2688 89.2656 19.0641 81.0609C10.8594 72.8562 6.25 61.7282 6.25 50.125C6.25 38.5218 10.8594 27.3938 19.0641 19.1891C27.2688 10.9844 38.3968 6.375 50 6.375C61.6032 6.375 72.7312 10.9844 80.9359 19.1891C89.1406 27.3938 93.75 38.5218 93.75 50.125Z"
+                      fill="white" fill-opacity="0.85" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_276_55">
+                      <rect width="100" height="100" fill="white" transform="translate(0 0.125)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+
+              <time
+                class="absolute text-4xl text-white bottom-[11px] left-[23px] max-md:text-3xl max-md:left-[15px] max-sm:text-2xl max-sm:bottom-[15px] max-sm:left-[15px]">
+                02/10/2025
+              </time>
+            </article>
+
+            <!-- Video Thumbnail 5 - Coming Soon -->
+            <article class="relative w-full cursor-pointer aspect-[139/78] h-[211px] max-sm:h-[180px]">
+              <img
+                src="https://api.builder.io/api/v1/image/assets/TEMP/5578b262ec5ab980f2c4f77c4e2f52c3e0181856?width=752"
+                alt="" class="object-cover absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full" />
+              <div class="absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full"></div>
+
+              <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <svg class="clock-icon" width="101" height="101" viewBox="0 0 101 101" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" style="width: 100px; height: 100px">
+                  <g clip-path="url(#clip0_276_61)">
+                    <path
+                      d="M50.667 22C50.667 21.1712 50.3378 20.3763 49.7517 19.7903C49.1656 19.2042 48.3708 18.875 47.542 18.875C46.7132 18.875 45.9183 19.2042 45.3323 19.7903C44.7462 20.3763 44.417 21.1712 44.417 22V56.375C44.4172 56.9258 44.5629 57.4668 44.8395 57.9432C45.1161 58.4195 45.5137 58.8143 45.992 59.0875L67.867 71.5875C68.5849 71.9755 69.426 72.0673 70.2106 71.8433C70.9953 71.6193 71.6612 71.0972 72.066 70.3887C72.4709 69.6803 72.5826 68.8415 72.3772 68.0518C72.1718 67.2621 71.6657 66.584 70.967 66.1625L50.667 54.5625V22Z"
+                      fill="white" fill-opacity="0.85" />
+                    <path
+                      d="M50.667 100.125C63.9278 100.125 76.6455 94.8572 86.0223 85.4803C95.3992 76.1035 100.667 63.3858 100.667 50.125C100.667 36.8642 95.3992 24.1465 86.0223 14.7697C76.6455 5.39284 63.9278 0.125 50.667 0.125C37.4062 0.125 24.6885 5.39284 15.3117 14.7697C5.93483 24.1465 0.666992 36.8642 0.666992 50.125C0.666992 63.3858 5.93483 76.1035 15.3117 85.4803C24.6885 94.8572 37.4062 100.125 50.667 100.125ZM94.417 50.125C94.417 61.7282 89.8076 72.8562 81.6029 81.0609C73.3982 89.2656 62.2702 93.875 50.667 93.875C39.0638 93.875 27.9358 89.2656 19.7311 81.0609C11.5264 72.8562 6.91699 61.7282 6.91699 50.125C6.91699 38.5218 11.5264 27.3938 19.7311 19.1891C27.9358 10.9844 39.0638 6.375 50.667 6.375C62.2702 6.375 73.3982 10.9844 81.6029 19.1891C89.8076 27.3938 94.417 38.5218 94.417 50.125Z"
+                      fill="white" fill-opacity="0.85" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_276_61">
+                      <rect width="100" height="100" fill="white" transform="translate(0.666992 0.125)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+
+              <time
+                class="absolute text-4xl text-white bottom-[11px] left-[23px] max-md:text-3xl max-md:left-[15px] max-sm:text-2xl max-sm:bottom-[15px] max-sm:left-[15px]">
+                02/10/2025
+              </time>
+            </article>
+
+            <!-- Video Thumbnail 6 - Coming Soon -->
+            <article class="relative w-full cursor-pointer aspect-[139/78] h-[211px] max-sm:h-[180px]">
+              <img
+                src="https://api.builder.io/api/v1/image/assets/TEMP/7ce408a223a079e86467613c877df81efb889e56?width=752"
+                alt="" class="object-cover absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full" />
+              <div class="absolute top-0 left-0 rounded-2xl aspect-[139/78] size-full"></div>
+
+              <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <svg class="clock-icon" width="101" height="101" viewBox="0 0 101 101" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" style="width: 100px; height: 100px">
+                  <g clip-path="url(#clip0_276_67)">
+                    <path
+                      d="M50.333 22C50.333 21.1712 50.0038 20.3763 49.4177 19.7903C48.8317 19.2042 48.0368 18.875 47.208 18.875C46.3792 18.875 45.5844 19.2042 44.9983 19.7903C44.4122 20.3763 44.083 21.1712 44.083 22V56.375C44.0832 56.9258 44.229 57.4668 44.5055 57.9432C44.7821 58.4195 45.1797 58.8143 45.658 59.0875L67.533 71.5875C68.2509 71.9755 69.092 72.0673 69.8767 71.8433C70.6613 71.6193 71.3272 71.0972 71.7321 70.3887C72.1369 69.6803 72.2486 68.8415 72.0432 68.0518C71.8378 67.2621 71.3317 66.584 70.633 66.1625L50.333 54.5625V22Z"
+                      fill="white" fill-opacity="0.85" />
+                    <path
+                      d="M50.333 100.125C63.5938 100.125 76.3115 94.8572 85.6883 85.4803C95.0652 76.1035 100.333 63.3858 100.333 50.125C100.333 36.8642 95.0652 24.1465 85.6883 14.7697C76.3115 5.39284 63.5938 0.125 50.333 0.125C37.0722 0.125 24.3545 5.39284 14.9777 14.7697C5.60085 24.1465 0.333008 36.8642 0.333008 50.125C0.333008 63.3858 5.60085 76.1035 14.9777 85.4803C24.3545 94.8572 37.0722 100.125 50.333 100.125ZM94.083 50.125C94.083 61.7282 89.4736 72.8562 81.2689 81.0609C73.0642 89.2656 61.9362 93.875 50.333 93.875C38.7298 93.875 27.6018 89.2656 19.3971 81.0609C11.1924 72.8562 6.58301 61.7282 6.58301 50.125C6.58301 38.5218 11.1924 27.3938 19.3971 19.1891C27.6018 10.9844 38.7298 6.375 50.333 6.375C61.9362 6.375 73.0642 10.9844 81.2689 19.1891C89.4736 27.3938 94.083 38.5218 94.083 50.125Z"
+                      fill="white" fill-opacity="0.85" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_276_67">
+                      <rect width="100" height="100" fill="white" transform="translate(0.333008 0.125)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+
+              <time
+                class="absolute text-4xl text-white bottom-[11px] left-[23px] max-md:text-3xl max-md:left-[15px] max-sm:text-2xl max-sm:bottom-[15px] max-sm:left-[15px]">
+                02/10/2025
+              </time>
+            </article>
+          </section>
+
+
+
+
+
+          <!-- BOTÃO QUE ABRE O POP-UP -->
+<button id="openNotify"
+  class="mt-11 max-w-full text-4xl text-stone-900 w-[448px] max-md:mt-10">
+  <div
+    class="flex relative flex-col justify-center px-16 py-9 rounded-2xl min-h-[100px] max-md:px-5">
+    <img
+      src="https://api.builder.io/api/v1/image/assets/e9f43915614948e09d71586c74d9095a/413ab9b1f9f9d99b650564039d89bd26902442d8?placeholderIfAbsent=true"
+      class="object-cover absolute inset-0 size-full" alt="">
+    <span class="relative">NOTIFICAR QUANDO LANÇAR</span>
+  </div>
+</button>
+
+<!-- MODAL / POP-UP -->
+<div id="notifyModal" class="fixed inset-0 z-[100] hidden" aria-hidden="true" role="dialog" aria-modal="true">
+  <!-- Fundo escurecido -->
+  <div id="notifyBackdrop" class="absolute inset-0 bg-black/70 backdrop-blur-[1px]"></div>
+
+  <!-- Janela -->
+  <div class="relative w-[min(92vw,1040px)] mx-auto my-10">
+    <div class="relative rounded-2xl bg-[#F6F0E8] shadow-2xl ring-1 ring-black/10">
+      <!-- Botão fechar -->
+      <button id="closeNotify"
+        class="absolute right-4 top-4 w-10 h-10 grid place-items-center text-2xl text-green-900/80 hover:bg-black/5 rounded-full"
+        aria-label="Fechar">✕</button>
+
+      <!-- Conteúdo -->
+      <div class="px-8 md:px-12 py-10">
+        <!-- Cabeçalho estilizado -->
+        <div class="flex flex-col items-center">
+          <!-- Sininho (opcional) -->
+          <div class="w-12 h-12 mb-3 text-green-900">
+            <svg viewBox="0 0 24 24" class="w-full h-full fill-current">
+              <path d="M12 2a2 2 0 0 1 2 2v.278A6.999 6.999 0 0 1 19 11v3l2 2v1H3v-1l2-2v-3a7 7 0 0 1 5-6.722V4a2 2 0 0 1 2-2zM9 19h6a3 3 0 1 1-6 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-4xl md:text-5xl font-black text-green-900 text-center">
+            Protagonistas desta história
+          </h3>
+          <p class="mt-2 text-center text-gray-700">
+            Preencha o formulário abaixo para ser notificado quando novos episódios forem lançados!
+          </p>
+        </div>
+
+        <!-- Formulário -->
+        <form id="notifyForm" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <label for="nome" class="block mb-2 font-semibold text-green-800">Nome:</label>
+            <input id="nome" name="nome" type="text" required
+              class="w-full rounded-xl border-2 border-green-700/60 px-4 py-3 outline-none focus:border-green-800 bg-white"
+              placeholder="Seu nome completo" />
+          </div>
+
+          <div>
+            <label for="telefone" class="block mb-2 font-semibold text-green-800">Telefone:</label>
+            <input id="telefone" name="telefone" type="tel"
+              class="w-full rounded-xl border-2 border-green-700/60 px-4 py-3 outline-none focus:border-green-800 bg-white"
+              placeholder="(00) 00000-0000" />
+          </div>
+
+          <div class="md:col-span-2">
+            <label for="email" class="block mb-2 font-semibold text-green-800">email:</label>
+            <input id="email" name="email" type="email" required
+              class="w-full rounded-xl border-2 border-green-700/60 px-4 py-3 outline-none focus:border-green-800 bg-white"
+              placeholder="seuemail@exemplo.com" />
+          </div>
+
+          <div class="md:col-span-2 flex justify-center mt-2">
+            <button type="submit"
+              class="px-8 py-4 rounded-2xl bg-green-800 text-white font-bold shadow hover:bg-green-900">
+              NOTIFICAR NOVOS EPISÓDIOS
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script>
+  (function () {
+    const openBtn = document.getElementById('openNotify');
+    const modal = document.getElementById('notifyModal');
+    const closeBtn = document.getElementById('closeNotify');
+    const backdrop = document.getElementById('notifyBackdrop');
+    const form = document.getElementById('notifyForm');
+
+    function open() {
+      modal.classList.remove('hidden');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('nome')?.focus(), 50);
+    }
+    function close() {
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    openBtn?.addEventListener('click', open);
+    closeBtn?.addEventListener('click', close);
+    backdrop?.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+    // Envio (substitua pela sua integração/endpoint)
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      console.log('Cadastro recebido:', data);
+      alert('Cadastro enviado com sucesso! 😊');
+      form.reset();
+      close();
+    });
+  })();
+</script>
+
+        </div>
+      </div>
+    </section>
+
+<!-- JS do modal -->
+<script>
+  (function () {
+    const openBtn = document.getElementById('notifyOpen');
+    const modal = document.getElementById('notifyModal');
+    const closeBtn = document.getElementById('notifyClose');
+    const backdrop = document.getElementById('notifyBackdrop');
+    const form = document.getElementById('notifyForm');
+
+    const open = () => {
+      modal.classList.remove('hidden');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden'; // trava scroll do fundo
+      // foca no primeiro campo
+      setTimeout(() => document.getElementById('nome')?.focus(), 50);
+    };
+
+    const close = () => {
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    openBtn?.addEventListener('click', open);
+    closeBtn?.addEventListener('click', close);
+    backdrop?.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+    // Simulação de envio — troque por integração (ex.: RD Station) se desejar
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      console.log('Cadastro recebido:', data);
+      // TODO: enviar para seu backend/serviço de CRM
+      alert('Cadastro enviado com sucesso! 😊');
+      form.reset();
+      close();
+    });
+  })();
+</script>
+
+
+    <!-- Footer Image -->
+  <footer
+      class="flex gap-2.5 justify-center items-center px-2.5 bg-stone-900 min-w-80"
+    >
+      <div
+        class="flex overflow-hidden flex-col flex-1 shrink self-stretch pt-10 pr-11 pb-5 my-auto w-full basis-0 min-w-60 max-md:max-w-full"
+      >
+        <div class="flex flex-wrap gap-5 justify-between max-md:max-w-full">
+          <section class="flex flex-col">
+            <div
+              class="flex overflow-hidden gap-2.5 justify-center items-end self-start px-6 py-2 max-md:px-5"
+            >
+              <img
+                src="https://api.builder.io/api/v1/image/assets/e9f43915614948e09d71586c74d9095a/6bea6bf83b53fd032e47b6ddf4d240be04ce9797?placeholderIfAbsent=true"
+                class="object-contain shrink-0 aspect-[2.76] w-[174px]"
+                alt="Nidera Logo"
+              />
+              <img
+                src="https://api.builder.io/api/v1/image/assets/e9f43915614948e09d71586c74d9095a/2cc64aff7dae397bb92d6410995167daa9a0a051?placeholderIfAbsent=true"
+                class="object-contain shrink-0 w-24 aspect-[2.6]"
+                alt="Secondary Logo"
+              />
+            </div>
+            <div class="px-10 mt-4 max-md:px-5">
+              <p class="text-base font-light text-white">
+                Há 20 anos avançando com a agricultura brasileira.
+              </p>
+              <p class="mt-2.5 text-3xl text-yellow-400">#nidera20anos</p>
+            </div>
+          </section>
+          <section class="flex flex-col my-auto">
+  <h2 class="text-2xl text-center text-yellow-400">
+    siga-nos nas redes sociais
+  </h2>
+
+  <div class="flex gap-5 justify-center mt-3">
+    <!-- Facebook -->
+    <a href="https://facebook.com/seuperfil" target="_blank" aria-label="Facebook"
+       class="text-white hover:text-yellow-400 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M22 12.07C22 6.48 17.52 2 12 2S2 6.48 2 12.07c0 5 3.66 9.13 8.44 9.93v-7.03H8v-2.9h2.44V9.41c0-2.42 1.43-3.76 3.63-3.76 1.05 0 2.15.19 2.15.19v2.37h-1.21c-1.2 0-1.57.75-1.57 1.52v1.83h2.67l-.43 2.9h-2.24v7.03C18.34 21.2 22 17.07 22 12.07z"/>
+      </svg>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://instagram.com/seuperfil" target="_blank" aria-label="Instagram"
+       class="text-white hover:text-yellow-400 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2c1.654 0 3 1.346 3 3s-1.346 3-3 3a3 3 0 110-6zm4.5-.25a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z"/>
+      </svg>
+    </a>
+
+    <!-- Twitter/X -->
+    <a href="https://twitter.com/seuperfil" target="_blank" aria-label="Twitter"
+       class="text-white hover:text-yellow-400 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M22.162 5.656c-.793.352-1.646.59-2.54.697a4.477 4.477 0 001.962-2.475 8.9 8.9 0 01-2.83 1.083A4.462 4.462 0 0015.448 4c-2.475 0-4.48 2.005-4.48 4.48 0 .351.04.694.115 1.021A12.68 12.68 0 013.17 5.1a4.478 4.478 0 001.387 5.973 4.43 4.43 0 01-2.029-.56v.057c0 2.157 1.534 3.954 3.57 4.362a4.493 4.493 0 01-2.023.077 4.48 4.48 0 004.184 3.113A8.957 8.957 0 012 19.54a12.62 12.62 0 006.84 2.004c8.21 0 12.698-6.801 12.698-12.698 0-.194-.004-.389-.013-.582a9.058 9.058 0 002.237-2.309z"/>
+      </svg>
+    </a>
+
+    <!-- YouTube -->
+    <a href="https://youtube.com/seucanal" target="_blank" aria-label="YouTube"
+       class="text-white hover:text-yellow-400 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M21.8 8.001a2.75 2.75 0 00-1.937-1.947C18.134 6 12 6 12 6s-6.134 0-7.863.054A2.75 2.75 0 002.2 8.001 28.6 28.6 0 002 12c0 1.35.05 2.7.2 3.999a2.75 2.75 0 001.937 1.947C5.866 18 12 18 12 18s6.134 0 7.863-.054a2.75 2.75 0 001.937-1.947c.15-1.299.2-2.649.2-3.999 0-1.35-.05-2.7-.2-3.999zM10 14.5V9.5l5 2.5-5 2.5z"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+        </div>
+        <hr
+          class="flex shrink-0 mt-3 ml-11 max-w-full h-px bg-white bg-opacity-50 w-[1332px]"
+        />
+        <p class="self-center mt-4 text-sm font-light text-white">
+          © 2025 Nidera Sementes. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+    
+  <script>
+    // Countdown Timer Functionality
+    function updateCountdown() {
+      // Set target date (example: 30 days from now)
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() + 30);
+
+      const now = new Date().getTime();
+      const distance = targetDate.getTime() - now;
+
+      if (distance > 0) {
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+        const minutes = Math.floor(
+          (distance % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("hours").textContent = hours
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("minutes").textContent = minutes
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("seconds").textContent = seconds
+          .toString()
+          .padStart(2, "0");
+      } else {
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+      }
+    }
+
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+
+    // Initialize countdown on page load
+    updateCountdown();
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute("href"));
+        if (target) {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
